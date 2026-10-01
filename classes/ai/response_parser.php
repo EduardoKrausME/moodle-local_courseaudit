@@ -42,7 +42,7 @@ class response_parser {
      */
     public function parse(string $text): array {
         $text = trim($text);
-        if (preg_match('/^```(?:json)?\s*(.*?)\s*```$/is', $text, $match)) {
+        if (preg_match('/^\x60{3}(?:json)?\s*(.*?)\s*\x60{3}$/is', $text, $match)) {
             $text = trim($match[1]);
         }
 
