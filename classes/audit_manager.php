@@ -133,7 +133,10 @@ class audit_manager {
 
         return array_values(array_filter(
             $this->rules,
-            static fn(rule_interface $rule): bool => $rule instanceof content_rule || $rule instanceof accessibility_rule || $rule instanceof links_rule
+            static fn(rule_interface $rule): bool =>
+                $rule instanceof content_rule ||
+                $rule instanceof accessibility_rule ||
+                $rule instanceof links_rule
         ));
     }
 
