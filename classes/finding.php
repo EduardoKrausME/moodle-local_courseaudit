@@ -24,12 +24,22 @@ namespace local_courseaudit;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class finding {
+    /** @var string */
     public const ERROR = 'error';
+
+    /** @var string */
     public const WARNING = 'warning';
+
+    /** @var string */
     public const SUGGESTION = 'suggestion';
+
+    /** @var string */
     public const AI_INSIGHT = 'ai_insight';
 
+    /** @var string */
     public const SOURCE_RULE = 'rule';
+
+    /** @var string  */
     public const SOURCE_AI = 'ai';
 
     /**
