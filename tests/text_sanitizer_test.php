@@ -22,6 +22,7 @@ use local_courseaudit\text_sanitizer;
 /**
  * Tests for text sanitization.
  *
+ * @covers \\local_courseaudit\\text_sanitizer
  * @package local_courseaudit
  * @copyright 2026 Eduardo Kraus {@link https://eduardokraus.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
