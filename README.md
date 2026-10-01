@@ -43,7 +43,7 @@ include:
 - graded activities with no corresponding grade item;
 - activities/resources without an introduction where an introduction is normally expected;
 - identical normalized authored content by deterministic hash;
-- malformed or unsupported URLs;
+- malformed or unhandled URLs;
 - internal Moodle links pointing to missing activity/course records;
 - basic authored HTML accessibility checks such as missing image `alt`, missing iframe `title`, vague link labels, and
   heading hierarchy jumps.
@@ -100,7 +100,7 @@ also has per-field and total size limits.
 The plugin does not persist raw prompts or raw model responses. Only structured findings may be stored
 in `local_courseaudit_run` so a completed result can be reused when the content hash has not changed. Because each
 persisted run records the initiating Moodle user ID, the plugin implements the Moodle Privacy API, including user-list
-deletion support.
+deletion handling.
 
 ## Cache
 
