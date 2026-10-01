@@ -18,7 +18,7 @@ namespace local_courseaudit\ai;
 
 use JsonException;
 use local_ai_bridge\api;
-use local_courseaudit\local\finding;
+use local_courseaudit\finding;
 use moodle_exception;
 use required_capability_exception;
 use Throwable;

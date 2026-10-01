@@ -19,7 +19,7 @@ namespace local_courseaudit\rules;
 use DOMDocument;
 use DOMElement;
 use DOMXPath;
-use local_courseaudit\local\finding;
+use local_courseaudit\finding;
 
 /**
  * Basic deterministic accessibility checks on authored HTML.

@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace local_courseaudit\local;
+namespace local_courseaudit;
 
 use local_courseaudit\ai\client as ai_client;
 use local_courseaudit\rules\accessibility_rule;

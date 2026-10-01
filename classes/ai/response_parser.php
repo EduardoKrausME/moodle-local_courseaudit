@@ -17,8 +17,8 @@
 namespace local_courseaudit\ai;
 
 use JsonException;
-use local_courseaudit\local\finding;
-use local_courseaudit\local\text_sanitizer;
+use local_courseaudit\finding;
+use local_courseaudit\text_sanitizer;
 
 /**
  * Strict parser for structured AI findings.

@@ -16,8 +16,8 @@
 
 namespace local_courseaudit\rules;
 
-use local_courseaudit\local\finding;
-use local_courseaudit\local\text_sanitizer;
+use local_courseaudit\finding;
+use local_courseaudit\text_sanitizer;
 
 /**
  * Deterministic content checks.

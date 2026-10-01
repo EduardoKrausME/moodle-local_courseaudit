@@ -25,8 +25,8 @@
 require_once(__DIR__ . '/../../config.php');
 
 use local_courseaudit\form\audit_form;
-use local_courseaudit\local\audit_manager;
-use local_courseaudit\local\report_view_builder;
+use local_courseaudit\audit_manager;
+use local_courseaudit\report_view_builder;
 
 $courseid = required_param('courseid', PARAM_INT);
 $course = get_course($courseid);

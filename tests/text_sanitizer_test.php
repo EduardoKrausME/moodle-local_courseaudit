@@ -17,7 +17,7 @@
 namespace local_courseaudit;
 
 use advanced_testcase;
-use local_courseaudit\local\text_sanitizer;
+use local_courseaudit\text_sanitizer;
 
 /**
  * Tests for text sanitization.

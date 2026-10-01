@@ -17,7 +17,7 @@
 namespace local_courseaudit;
 
 use advanced_testcase;
-use local_courseaudit\local\finding;
+use local_courseaudit\finding;
 use local_courseaudit\rules\content_rule;
 use local_courseaudit\rules\dates_rule;
 

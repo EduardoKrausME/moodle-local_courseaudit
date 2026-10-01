@@ -17,7 +17,7 @@
 namespace local_courseaudit;
 
 use advanced_testcase;
-use local_courseaudit\local\context_builder;
+use local_courseaudit\context_builder;
 
 /**
  * Tests for AI context normalization.

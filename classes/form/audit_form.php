@@ -16,12 +16,12 @@
 
 namespace local_courseaudit\form;
 
-global $CFG;
 defined('MOODLE_INTERNAL') || die;
+global $CFG;
 
 require_once($CFG->libdir . '/formslib.php');
 
-use local_courseaudit\local\audit_manager;
+use local_courseaudit\audit_manager;
 use moodleform;
 use section_info;
 

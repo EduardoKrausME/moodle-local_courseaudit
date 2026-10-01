@@ -16,7 +16,7 @@
 
 namespace local_courseaudit\rules;
 
-use local_courseaudit\local\finding;
+use local_courseaudit\finding;
 
 /**
  * Contract for deterministic audit rules.

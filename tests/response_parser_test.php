@@ -19,7 +19,7 @@ namespace local_courseaudit;
 use advanced_testcase;
 use JsonException;
 use local_courseaudit\ai\response_parser;
-use local_courseaudit\local\finding;
+use local_courseaudit\finding;
 
 /**
  * Tests for strict AI JSON parsing.
