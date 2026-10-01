@@ -46,8 +46,8 @@ final class capability_test extends advanced_testcase {
     }
 
     /**
-    * Students do not receive the audit capability by default.
-    */
+     * Students do not receive the audit capability by default.
+     */
     public function test_student_cannot_audit_course(): void {
         global $DB;
 

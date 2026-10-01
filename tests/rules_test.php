@@ -30,8 +30,8 @@ use local_courseaudit\rules\dates_rule;
  */
 final class rules_test extends advanced_testcase {
     /**
-    * Test that due/close dates before opening dates are objective errors.
-    */
+     * Test that due/close dates before opening dates are objective errors.
+     */
     public function test_dates_rule_detects_invalid_order(): void {
         $snapshot = [
             'course' => ['startdate' => 100, 'enddate' => 200],
@@ -52,8 +52,8 @@ final class rules_test extends advanced_testcase {
     }
 
     /**
-    * Test literal duplicate detection before any AI analysis.
-    */
+     * Test literal duplicate detection before any AI analysis.
+     */
     public function test_content_rule_detects_identical_normalized_content(): void {
         $longtext = str_repeat('This deterministic paragraph has meaningful duplicated course content. ', 3);
         $snapshot = [

@@ -28,8 +28,8 @@ use local_courseaudit\context_builder;
  */
 final class context_builder_test extends advanced_testcase {
     /**
-    * Remove common identifiers and secrets before AI use.
-    */
+     * Remove common identifiers and secrets before AI use.
+     */
     public function test_context_redacts_email_and_tokens(): void {
         $snapshot = [
             'course' => [
