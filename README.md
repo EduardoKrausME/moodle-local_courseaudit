@@ -1,45 +1,11 @@
 # Moodle Course Audit (`local_courseaudit`)
 
-`local_courseaudit` is a Moodle 4.5+ local plugin that works as a course linter: objective problems are detected by
+`local_courseaudit` is a Moodle local plugin that works as a course linter: objective problems are detected by
 deterministic PHP rules, while semantic and pedagogical interpretation is delegated to `local_ai_bridge` only after the
 local checks are complete.
 
 The plugin never modifies a course automatically. Every finding is advisory or diagnostic and any corrective action
 remains a human decision.
-
-## Requirements
-
-- Moodle 4.5 or newer (`$plugin->requires = 2024100700`);
-- PHP 8.1+ as required by Moodle 4.5;
-- `local_ai_bridge` version `2026093001` or newer:
-  https://github.com/EduardoKrausME/moodle-local_ai_bridge/
-- an enabled AI Bridge purpose with idnumber `courseaudit-analysis` if semantic/AI analysis will be used.
-
-The dependency is declared in `version.php`. This plugin contains no API keys, provider endpoints, provider SDKs, model
-settings, or direct integrations with OpenAI, Gemini, Claude, Ollama, or any other provider.
-
-All AI calls go exclusively through:
-
-```php
-\local_ai_bridge\api::generate('courseaudit-analysis', $messages);
-```
-
-## Installation
-
-Copy the plugin to:
-
-```text
-local/courseaudit
-```
-
-Then complete the normal Moodle plugin upgrade from Site administration or CLI:
-
-```bash
-php admin/cli/upgrade.php
-```
-
-Configure `local_ai_bridge` separately, create/enable the `courseaudit-analysis` purpose, give the relevant users AI
-Bridge access, and configure at least one route for that purpose and logical role.
 
 ## Permissions
 
@@ -165,42 +131,3 @@ Findings are grouped into:
 Each finding records severity, title, plain-text description, origin (`Moodle rule` or `AI analysis`), related item,
 evidence/suggestion where applicable, and a direct Moodle edit URL when the finding belongs to a concrete
 section/activity.
-
-## Tests
-
-PHPUnit tests are included for:
-
-- deterministic date and duplicate-content rules;
-- default course capability behavior;
-- AI context normalization/redaction;
-- valid AI JSON parsing;
-- invalid JSON handling;
-- prevention of AI-created objective errors;
-- output sanitization.
-
-Run them from a configured Moodle test environment, for example:
-
-```bash
-vendor/bin/phpunit --testsuite local_courseaudit_testsuite
-```
-
-or target the plugin test directory according to the Moodle PHPUnit setup used by your installation.
-
-## Validation and GitHub Actions
-
-`.github/workflows/validate.yml` runs PHP syntax validation with PHP 8.1 and validates the plugin using:
-
-https://github.com/EduardoKrausME/moodle-plugin-validate
-
-Equivalent local validation:
-
-```bash
-git clone https://github.com/EduardoKrausME/moodle-plugin-validate.git /tmp/moodle-plugin-validate
-php /tmp/moodle-plugin-validate/bin/moodle-string-validate /path/to/local/courseaudit
-```
-
-## License
-
-GNU GPL v3 or later.
-
-Copyright 2026 Eduardo Kraus.
