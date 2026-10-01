@@ -1,0 +1,96 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_courseaudit/report
+
+    Example context (json):
+    {
+        Aqui tem que criar o context em inglês
+    }
+}}
+<div class="local-courseaudit-report mt-4">
+    <div class="row mb-3">
+        <div class="col-sm-3 mb-2">
+            <div class="card">
+                <div class="card-body py-2"><strong>{{errorcount}}</strong> {{#str}}
+                    summaryerrors, local_courseaudit{{/str}}</div>
+            </div>
+        </div>
+        <div class="col-sm-3 mb-2">
+            <div class="card">
+                <div class="card-body py-2"><strong>{{warningcount}}</strong> {{#str}}
+                    summarywarnings, local_courseaudit{{/str}}</div>
+            </div>
+        </div>
+        <div class="col-sm-3 mb-2">
+            <div class="card">
+                <div class="card-body py-2"><strong>{{suggestioncount}}</strong> {{#str}}
+                    summarysuggestions, local_courseaudit{{/str}}</div>
+            </div>
+        </div>
+        <div class="col-sm-3 mb-2">
+            <div class="card">
+                <div class="card-body py-2"><strong>{{aiinsightcount}}</strong> {{#str}}
+                    summaryai, local_courseaudit{{/str}}</div>
+            </div>
+        </div>
+    </div>
+
+    {{#nofindings}}
+        <div class="alert alert-success" role="status">{{#str}}nofindings, local_courseaudit{{/str}}</div>
+    {{/nofindings}}
+
+    {{#categories}}
+        <section class="mb-4">
+            <h3 class="h4">{{name}} <span class="badge badge-light">{{count}}</span></h3>
+            {{#findings}}
+                <div class="card mb-2 border-{{severityclass}}">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap align-items-center mb-2">
+                            <span class="badge badge-{{severityclass}} mr-2">{{severity}}</span>
+                            <strong>{{title}}</strong>
+                        </div>
+                        <p class="mb-2">{{description}}</p>
+                        <div class="small text-muted mb-2">
+                            <span>{{#str}}origin, local_courseaudit{{/str}}: {{origin}}</span>
+                            {{#hasrelated}}
+                                <span class="ml-3">{{#str}}
+                                    related, local_courseaudit{{/str}}: {{related}}</span>{{/hasrelated}}
+                        </div>
+                        {{#hasevidence}}
+                            <div class="mb-2">
+                                <strong>{{#str}}evidence, local_courseaudit{{/str}}</strong>
+                                <ul class="mb-0">
+                                    {{#evidence}}
+                                        <li>{{text}}</li>{{/evidence}}
+                                </ul>
+                            </div>
+                        {{/hasevidence}}
+                        {{#hassuggestion}}
+                            <p class="mb-2"><strong>{{#str}}
+                                suggestion, local_courseaudit{{/str}}</strong>: {{suggestion}}</p>
+                        {{/hassuggestion}}
+                        {{#hasediturl}}
+                            <a class="btn btn-sm btn-outline-primary" href="{{{editurl}}}">{{#str}}
+                                editrelated, local_courseaudit{{/str}}</a>
+                        {{/hasediturl}}
+                    </div>
+                </div>
+            {{/findings}}
+        </section>
+    {{/categories}}
+</div>
