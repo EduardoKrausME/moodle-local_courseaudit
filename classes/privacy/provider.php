@@ -40,6 +40,12 @@ class provider implements
     core_userlist_provider {
 
 
+    /**
+     * Method get_metadata.
+     *
+     * @param collection $collection Parameter collection.
+     * @return collection Return value.
+     */
     public static function get_metadata(collection $collection): collection {
         $collection->add_database_table(
             'local_courseaudit_run',
@@ -60,6 +66,12 @@ class provider implements
     }
 
 
+    /**
+     * Method get_contexts_for_userid.
+     *
+     * @param int $userid Parameter userid.
+     * @return contextlist Return value.
+     */
     public static function get_contexts_for_userid(int $userid): contextlist {
         $contextlist = new contextlist();
         $sql = "SELECT ctx.id
@@ -72,6 +84,12 @@ class provider implements
     }
 
 
+    /**
+     * Method export_user_data.
+     *
+     * @param approved_contextlist $contextlist Parameter contextlist.
+     * @return void Return value.
+     */
     public static function export_user_data(approved_contextlist $contextlist): void {
         global $DB;
 
@@ -105,6 +123,12 @@ class provider implements
     }
 
 
+    /**
+     * Method delete_data_for_all_users_in_context.
+     *
+     * @param context $context Parameter context.
+     * @return void Return value.
+     */
     public static function delete_data_for_all_users_in_context(context $context): void {
         global $DB;
         if ($context->contextlevel !== CONTEXT_COURSE) {
@@ -114,6 +138,12 @@ class provider implements
     }
 
 
+    /**
+     * Method delete_data_for_user.
+     *
+     * @param approved_contextlist $contextlist Parameter contextlist.
+     * @return void Return value.
+     */
     public static function delete_data_for_user(approved_contextlist $contextlist): void {
         global $DB;
         $userid = $contextlist->get_user()->id;
@@ -128,6 +158,12 @@ class provider implements
     }
 
 
+    /**
+     * Method get_users_in_context.
+     *
+     * @param userlist $userlist Parameter userlist.
+     * @return void Return value.
+     */
     public static function get_users_in_context(userlist $userlist): void {
         $context = $userlist->get_context();
         if ($context->contextlevel !== CONTEXT_COURSE) {
@@ -140,6 +176,12 @@ class provider implements
     }
 
 
+    /**
+     * Method delete_data_for_users.
+     *
+     * @param approved_userlist $userlist Parameter userlist.
+     * @return void Return value.
+     */
     public static function delete_data_for_users(approved_userlist $userlist): void {
         global $DB;
         $context = $userlist->get_context();

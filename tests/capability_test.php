@@ -28,6 +28,11 @@ use context_course;
  */
 final class capability_test extends advanced_testcase {
 
+    /**
+     * Method test_editing_teacher_can_audit_course.
+     *
+     * @return void Return value.
+     */
     public function test_editing_teacher_can_audit_course(): void {
         global $DB;
 

@@ -27,6 +27,12 @@ use local_courseaudit\local\finding;
  */
 class grading_rule extends base_rule {
 
+    /**
+     * Method run.
+     *
+     * @param array $snapshot Parameter snapshot.
+     * @return array Return value.
+     */
     public function run(array $snapshot): array {
         $findings = [];
         foreach ($snapshot['sections'] ?? [] as $section) {

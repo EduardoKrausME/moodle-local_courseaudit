@@ -29,6 +29,12 @@ use local_courseaudit\local\finding;
  */
 class links_rule extends base_rule {
 
+    /**
+     * Method run.
+     *
+     * @param array $snapshot Parameter snapshot.
+     * @return array Return value.
+     */
     public function run(array $snapshot): array {
         global $CFG, $DB;
 
@@ -121,6 +127,13 @@ class links_rule extends base_rule {
         return rtrim($wwwroot, '/') . '/' . ltrim($url, './');
     }
 
+    /**
+     * Method is_same_site.
+     *
+     * @param string $url Parameter url.
+     * @param string $wwwroot Parameter wwwroot.
+     * @return bool Return value.
+     */
     private function is_same_site(string $url, string $wwwroot): bool {
         $host = parse_url($url, PHP_URL_HOST);
         $sitehost = parse_url($wwwroot, PHP_URL_HOST);
@@ -129,6 +142,13 @@ class links_rule extends base_rule {
         return $host !== null && $host === $sitehost && $port === $siteport;
     }
 
+    /**
+     * Method broken_internal_link.
+     *
+     * @param array $module Parameter module.
+     * @param string $url Parameter url.
+     * @return finding Return value.
+     */
     private function broken_internal_link(array $module, string $url): finding {
         return $this->finding(
             finding::ERROR,
