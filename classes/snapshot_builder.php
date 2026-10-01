@@ -63,7 +63,10 @@ class snapshot_builder {
                 'summary' => (string)$section->summary,
                 'visible' => !empty($section->visible),
                 'availability' => (string)($section->availability ?? ''),
-                'editurl' => (new moodle_url('/course/editsection.php', ['id' => $section->id, 'sr' => $section->section]))->out(false),
+                'editurl' => (new moodle_url('/course/editsection.php', [
+                    'id' => $section->id,
+                    'sr' => $section->section,
+                ]))->out(false),
                 'modules' => $modules,
             ];
         }
