@@ -60,8 +60,8 @@ class context_builder {
                     'name' => text_sanitizer::for_ai((string)$module['name'], 500),
                     'text' => text_sanitizer::for_ai((string)$module['text'], 4000),
                     'word_count' => $this->word_count(text_sanitizer::plain((string)$module['text'])),
-                    'graded' => $module['grade'] !== null && (float)$module['grade'] != 0.0,
-                    'completion_tracked' => (int)$module['completion'] !== 0,
+                    'graded' => ($module['grade'] ?? null) !== null && (float)$module['grade'] != 0.0,
+                    'completion_tracked' => (int)($module['completion'] ?? 0) !== 0,
                 ];
                 $encoded = json_encode($row, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
                 $cost = strlen($encoded === false ? '' : $encoded);
