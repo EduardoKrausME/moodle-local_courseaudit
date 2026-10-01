@@ -83,10 +83,13 @@ class client {
         ];
         $instruction = implode("\n", [
             'Analyze only semantic and pedagogical aspects that cannot be reliably determined by PHP rules.',
-            'Focus on pedagogical coherence, sequence, unclear instructions, semantic repetition, alignment between objectives and activities,',
-            'activities that appear weakly related to objectives, meaningful gaps, terminology inconsistency, concentrated workload, and clarity.',
+            'Focus on pedagogical coherence, sequence, unclear instructions, semantic repetition,',
+            'alignment between objectives and activities,',
+            'activities weakly related to objectives, meaningful gaps, terminology inconsistency,',
+            'concentrated workload, and clarity.',
             'Do not claim that an interpretive pedagogical choice is objectively wrong. Never return type "error".',
-            'Do not infer facts that are absent. Evidence must quote or identify supplied sections/activities, not invented content.',
+            'Do not infer facts that are absent. Evidence must quote or identify supplied sections/activities,',
+            'not invented content.',
             'Return valid JSON only, with no Markdown fences and no HTML.',
             'Required schema: ' . json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
             'Course context: ' . json_encode($context, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
