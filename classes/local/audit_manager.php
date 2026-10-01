@@ -36,7 +36,9 @@ use stdClass;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class audit_manager {
-    /** Supported audit modes. */
+    /**
+     * Supported audit modes.
+     */
     public const MODES = ['full', 'structure', 'contentai'];
 
     /** @var rule_interface[] */

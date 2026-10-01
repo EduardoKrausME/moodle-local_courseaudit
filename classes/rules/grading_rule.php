@@ -26,7 +26,7 @@ use local_courseaudit\local\finding;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class grading_rule extends base_rule {
-    /** @inheritdoc */
+
     public function run(array $snapshot): array {
         $findings = [];
         foreach ($snapshot['sections'] ?? [] as $section) {

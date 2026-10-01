@@ -39,7 +39,7 @@ class provider implements
     \core_privacy\local\request\plugin\provider,
     core_userlist_provider {
 
-    /** @inheritdoc */
+
     public static function get_metadata(collection $collection): collection {
         $collection->add_database_table(
             'local_courseaudit_run',
@@ -59,7 +59,7 @@ class provider implements
         return $collection;
     }
 
-    /** @inheritdoc */
+
     public static function get_contexts_for_userid(int $userid): contextlist {
         $contextlist = new contextlist();
         $sql = "SELECT ctx.id
@@ -71,7 +71,7 @@ class provider implements
         return $contextlist;
     }
 
-    /** @inheritdoc */
+
     public static function export_user_data(approved_contextlist $contextlist): void {
         global $DB;
 
@@ -104,7 +104,7 @@ class provider implements
         }
     }
 
-    /** @inheritdoc */
+
     public static function delete_data_for_all_users_in_context(context $context): void {
         global $DB;
         if ($context->contextlevel !== CONTEXT_COURSE) {
@@ -113,7 +113,7 @@ class provider implements
         $DB->delete_records('local_courseaudit_run', ['courseid' => $context->instanceid]);
     }
 
-    /** @inheritdoc */
+
     public static function delete_data_for_user(approved_contextlist $contextlist): void {
         global $DB;
         $userid = $contextlist->get_user()->id;
@@ -127,7 +127,7 @@ class provider implements
         }
     }
 
-    /** @inheritdoc */
+
     public static function get_users_in_context(userlist $userlist): void {
         $context = $userlist->get_context();
         if ($context->contextlevel !== CONTEXT_COURSE) {
@@ -139,7 +139,7 @@ class provider implements
         $userlist->add_from_sql('userid', $sql, ['courseid' => $context->instanceid]);
     }
 
-    /** @inheritdoc */
+
     public static function delete_data_for_users(approved_userlist $userlist): void {
         global $DB;
         $context = $userlist->get_context();

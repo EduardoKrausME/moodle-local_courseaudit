@@ -94,7 +94,6 @@ class client {
         return [['role' => 'user', 'content' => $instruction]];
     }
 
-    /** @param string $message @return array */
     private function failure(string $message): array {
         return ['findings' => [], 'error' => $message, 'used' => false];
     }

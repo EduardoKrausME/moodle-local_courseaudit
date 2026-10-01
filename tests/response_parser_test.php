@@ -29,7 +29,9 @@ use local_courseaudit\local\finding;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class response_parser_test extends advanced_testcase {
-    /** Parse a valid structured response and strip returned HTML. */
+    /**
+    * Parse a valid structured response and strip returned HTML.
+    */
     public function test_parse_valid_json_and_sanitise_html(): void {
         $json = json_encode([
             'findings' => [[
@@ -49,14 +51,18 @@ final class response_parser_test extends advanced_testcase {
         $this->assertSame(finding::SOURCE_AI, $findings[0]->source);
     }
 
-    /** AI is not allowed to create objective ERROR findings. */
+    /**
+    * AI is not allowed to create objective ERROR findings.
+    */
     public function test_ai_error_is_downgraded_to_warning(): void {
         $json = '{"findings":[{"type":"error","category":"pedagogy","title":"Claim","description":"Interpretive claim"}]}';
         $findings = (new response_parser())->parse($json);
         $this->assertSame(finding::WARNING, $findings[0]->type);
     }
 
-    /** Invalid JSON must never be silently rendered or accepted. */
+    /**
+    * Invalid JSON must never be silently rendered or accepted.
+    */
     public function test_invalid_json_throws(): void {
         $this->expectException(JsonException::class);
         (new response_parser())->parse('not-json');

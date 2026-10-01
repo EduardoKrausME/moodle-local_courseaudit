@@ -27,7 +27,7 @@ use context_course;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class capability_test extends advanced_testcase {
-    /** Editing teachers receive the audit capability through the archetype. */
+
     public function test_editing_teacher_can_audit_course(): void {
         global $DB;
 
@@ -40,7 +40,9 @@ final class capability_test extends advanced_testcase {
         $this->assertTrue(has_capability('local/courseaudit:audit', $context, $user));
     }
 
-    /** Students do not receive the audit capability by default. */
+    /**
+    * Students do not receive the audit capability by default.
+    */
     public function test_student_cannot_audit_course(): void {
         global $DB;
 

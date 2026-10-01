@@ -27,7 +27,9 @@ use local_courseaudit\local\context_builder;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class context_builder_test extends advanced_testcase {
-    /** Remove common identifiers and secrets before AI use. */
+    /**
+    * Remove common identifiers and secrets before AI use.
+    */
     public function test_context_redacts_email_and_tokens(): void {
         $snapshot = [
             'course' => [

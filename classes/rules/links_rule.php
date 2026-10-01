@@ -28,7 +28,7 @@ use local_courseaudit\local\finding;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class links_rule extends base_rule {
-    /** @inheritdoc */
+
     public function run(array $snapshot): array {
         global $CFG, $DB;
 
@@ -121,7 +121,6 @@ class links_rule extends base_rule {
         return rtrim($wwwroot, '/') . '/' . ltrim($url, './');
     }
 
-    /** @param string $url @param string $wwwroot @return bool */
     private function is_same_site(string $url, string $wwwroot): bool {
         $host = parse_url($url, PHP_URL_HOST);
         $sitehost = parse_url($wwwroot, PHP_URL_HOST);
@@ -130,7 +129,6 @@ class links_rule extends base_rule {
         return $host !== null && $host === $sitehost && $port === $siteport;
     }
 
-    /** @param array $module @param string $url @return finding */
     private function broken_internal_link(array $module, string $url): finding {
         return $this->finding(
             finding::ERROR,

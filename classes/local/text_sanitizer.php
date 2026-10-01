@@ -89,12 +89,10 @@ class text_sanitizer {
         return $value;
     }
 
-    /** @param string $text @return int */
     private static function strlen(string $text): int {
         return class_exists('core_text') ? core_text::strlen($text) : mb_strlen($text);
     }
 
-    /** @param string $text @param int $start @param int $length @return string */
     private static function substr(string $text, int $start, int $length): string {
         return class_exists('core_text') ? core_text::substr($text, $start, $length) : mb_substr($text, $start, $length);
     }

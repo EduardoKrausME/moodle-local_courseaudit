@@ -27,13 +27,17 @@ use local_courseaudit\local\text_sanitizer;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class text_sanitizer_test extends advanced_testcase {
-    /** Normalize HTML and whitespace predictably. */
+    /**
+    * Normalize HTML and whitespace predictably.
+    */
     public function test_plain_removes_markup_and_script_content(): void {
         $plain = text_sanitizer::plain('<p>Hello <strong>world</strong></p><script>bad()</script>');
         $this->assertSame('Hello world', $plain);
     }
 
-    /** Normalize equivalent content for deterministic hashes. */
+    /**
+    * Normalize equivalent content for deterministic hashes.
+    */
     public function test_normalize_is_case_and_punctuation_insensitive(): void {
         $this->assertSame(
             text_sanitizer::normalize('Hello, WORLD!'),

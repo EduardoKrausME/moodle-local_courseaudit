@@ -24,7 +24,9 @@ namespace local_courseaudit\local;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class context_builder {
-    /** Maximum total JSON payload size before stopping at additional activities. */
+    /**
+     * Maximum total JSON payload size before stopping at additional activities.
+     */
     private const MAX_TOTAL_CHARS = 60000;
 
     /**

@@ -27,7 +27,7 @@ use local_courseaudit\local\text_sanitizer;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class content_rule extends base_rule {
-    /** @inheritdoc */
+
     public function run(array $snapshot): array {
         $findings = [];
         $hashes = [];
