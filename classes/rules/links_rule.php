@@ -46,7 +46,12 @@ class links_rule extends base_rule {
             foreach ($section['modules'] as $module) {
                 foreach ($module['urls'] ?? [] as $url) {
                     $url = trim((string)$url);
-                    if ($url === '' || str_starts_with($url, '#') || str_starts_with($url, 'mailto:') || str_starts_with($url, 'tel:')) {
+                    if (
+                        $url === '' ||
+                        str_starts_with($url, '#') ||
+                        str_starts_with($url, 'mailto:') ||
+                        str_starts_with($url, 'tel:')
+                    ) {
                         continue;
                     }
 
