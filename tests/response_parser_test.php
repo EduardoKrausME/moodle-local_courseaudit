@@ -24,6 +24,7 @@ use local_courseaudit\finding;
 /**
  * Tests for strict AI JSON parsing.
  *
+ * @covers \\local_courseaudit\\ai\\response_parser
  * @package local_courseaudit
  * @copyright 2026 Eduardo Kraus {@link https://eduardokraus.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
