@@ -43,7 +43,7 @@ abstract class base_rule implements rule_interface {
         string $category,
         string $titlekey,
         string $descriptionkey,
-        mixed  $a = null,
+        mixed $a = null,
         string $related = '',
         string $editurl = ''
     ): finding {

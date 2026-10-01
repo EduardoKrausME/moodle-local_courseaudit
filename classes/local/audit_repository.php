@@ -84,13 +84,13 @@ class audit_repository {
      * @return int
      */
     public function save(
-        int    $courseid,
-        int    $userid,
+        int $courseid,
+        int $userid,
         string $mode,
-        int    $sectionid,
+        int $sectionid,
         string $contenthash,
-        array  $findings,
-        bool   $aiused,
+        array $findings,
+        bool $aiused,
         string $status
     ): int {
         global $DB;

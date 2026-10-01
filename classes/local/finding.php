@@ -53,7 +53,7 @@ class finding {
         public readonly string $source = self::SOURCE_RULE,
         public readonly string $related = '',
         public readonly string $editurl = '',
-        public readonly array  $evidence = [],
+        public readonly array $evidence = [],
         public readonly string $suggestion = ''
     ) {
     }

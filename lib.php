@@ -32,8 +32,8 @@
  */
 function local_courseaudit_extend_navigation_course(
     navigation_node $parentnode,
-    stdClass        $course,
-    context_course  $context
+    stdClass $course,
+    context_course $context
 ): void {
     if ($course->id == SITEID || !has_capability('local/courseaudit:audit', $context)) {
         return;
