@@ -24,6 +24,25 @@ namespace local_courseaudit;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class finding {
+    /** @var string Finding type. */
+    public readonly string $type;
+    /** @var string Finding category. */
+    public readonly string $category;
+    /** @var string Finding title. */
+    public readonly string $title;
+    /** @var string Finding description. */
+    public readonly string $description;
+    /** @var string Finding source. */
+    public readonly string $source;
+    /** @var string Related content label. */
+    public readonly string $related;
+    /** @var string Edit URL. */
+    public readonly string $editurl;
+    /** @var array Evidence list. */
+    public readonly array $evidence;
+    /** @var string Suggested action. */
+    public readonly string $suggestion;
+
     /** @var string */
     public const ERROR = 'error';
 
@@ -56,16 +75,25 @@ class finding {
      * @param string $suggestion
      */
     public function __construct(
-        public readonly string $type,
-        public readonly string $category,
-        public readonly string $title,
-        public readonly string $description,
-        public readonly string $source = self::SOURCE_RULE,
-        public readonly string $related = '',
-        public readonly string $editurl = '',
-        public readonly array $evidence = [],
-        public readonly string $suggestion = ''
+        string $type,
+        string $category,
+        string $title,
+        string $description,
+        string $source = self::SOURCE_RULE,
+        string $related = '',
+        string $editurl = '',
+        array $evidence = [],
+        string $suggestion = ''
     ) {
+        $this->type = $type;
+        $this->category = $category;
+        $this->title = $title;
+        $this->description = $description;
+        $this->source = $source;
+        $this->related = $related;
+        $this->editurl = $editurl;
+        $this->evidence = $evidence;
+        $this->suggestion = $suggestion;
     }
 
     /**
