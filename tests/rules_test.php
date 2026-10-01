@@ -24,6 +24,7 @@ use local_courseaudit\rules\dates_rule;
 /**
  * Tests for deterministic rules.
  *
+ * @coversNothing
  * @package local_courseaudit
  * @copyright 2026 Eduardo Kraus {@link https://eduardokraus.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -72,7 +73,11 @@ final class rules_test extends advanced_testcase {
         ];
 
         $findings = (new content_rule())->run($snapshot);
-        $duplicates = array_filter($findings, static fn(finding $finding): bool => $finding->category === 'content' && $finding->type === finding::WARNING);
+        $duplicates = array_filter(
+            $findings,
+            static fn(finding $finding): bool =>
+                $finding->category === 'content' && $finding->type === finding::WARNING
+        );
         $this->assertCount(1, $duplicates);
     }
 }
