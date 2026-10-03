@@ -22,4 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die;
+
 // The plugin intentionally has no provider/model/API-key settings. AI configuration belongs to local_ai_bridge.
