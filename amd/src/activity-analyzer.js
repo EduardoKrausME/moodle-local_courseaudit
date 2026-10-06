@@ -21,7 +21,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(["jquery", "core/ajax", "core/notification", "core/templates", "core/str"], function ($, ajax, notification, templates, str) {
+define(["jquery", "core/ajax", "core/notification", "core/templates"], function ($, ajax, notification, templates) {
     var currentCourseId = 0;
     var currentCmid = null;
     var currentActivityName = "";
@@ -409,9 +409,8 @@ define(["jquery", "core/ajax", "core/notification", "core/templates", "core/str"
         modal.find(selectors.loading).addClass("d-none");
         modal.find(selectors.reanalyze).prop("disabled", false);
 
-        M.util.get_string("analysis_no_content", "local_courseaudit").done(function (message) {
-            modal.find(selectors.error).removeClass("d-none").text(message);
-        });
+        var message = M.util.get_string("analysis_no_content", "local_courseaudit");
+        modal.find(selectors.error).removeClass("d-none").text(message);
     }
 
     /**
@@ -481,7 +480,7 @@ define(["jquery", "core/ajax", "core/notification", "core/templates", "core/str"
             return "";
         }
 
-        return M.util.get_string("analysis_model_warning", "local_courseaudit", M.cfg.wwwroot)
+        return M.util.get_string("analysis_model_warning", "local_courseaudit", M.cfg.wwwroot);
     }
 
     /**
@@ -492,11 +491,9 @@ define(["jquery", "core/ajax", "core/notification", "core/templates", "core/str"
     function showError(message) {
         var fallback = M.util.get_string("analysis_error", "local_courseaudit");
 
-        $.when(fallback).done(function (errorText) {
-            $(selectors.modal).find(selectors.error)
-                .removeClass('d-none')
-                .text(message || errorText);
-        });
+        $(selectors.modal).find(selectors.error)
+            .removeClass('d-none')
+            .text(message || fallback);
     }
 
     /**
@@ -581,11 +578,10 @@ define(["jquery", "core/ajax", "core/notification", "core/templates", "core/str"
      * Show blocked popup notification.
      */
     function showPrintBlockedNotification() {
-        M.util.get_string("analysis_print_popup_blocked", "local_courseaudit").done(function (message) {
-            notification.addNotification({
-                message: message,
-                type: "warning"
-            });
+        var message = M.util.get_string("analysis_print_popup_blocked", "local_courseaudit");
+        notification.addNotification({
+            message: message,
+            type: "warning"
         });
     }
 

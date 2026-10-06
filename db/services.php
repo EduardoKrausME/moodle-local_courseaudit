@@ -30,7 +30,7 @@ $functions = [
         'classname' => '\\local_courseaudit\\external\\analyze_activity',
         'methodname' => 'api',
         'description' => 'Analyze one Moodle activity with Course Audit AI',
-        'type' => 'read',
+        'type' => 'write',
         'ajax' => true,
     ],
     'local_courseaudit_analyze_course' => [
@@ -38,7 +38,7 @@ $functions = [
         'classname' => '\\local_courseaudit\\external\\analyze_course',
         'methodname' => 'api',
         'description' => 'Analyze visible Moodle course activities with Course Audit AI',
-        'type' => 'read',
+        'type' => 'write',
         'ajax' => true,
     ],
     'local_courseaudit_analysis_history' => [

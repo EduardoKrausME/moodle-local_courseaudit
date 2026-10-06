@@ -99,12 +99,7 @@ class analysis_availability {
             return false;
         }
 
-        $support = plugin_supports("mod", $modname, "local_courseaudit_analysis", null);
-        if ($support === null) {
-            $support = plugin_supports("mod", $modname, "local_geniai_analysis", true);
-        }
-
-        return $support !== false;
+        return plugin_supports("mod", $modname, "local_courseaudit_analysis", true) !== false;
     }
 
     /**

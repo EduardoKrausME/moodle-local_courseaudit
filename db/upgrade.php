@@ -31,8 +31,9 @@
 function xmldb_local_courseaudit_upgrade($oldversion) {
     global $DB;
 
+    $dbman = $DB->get_manager();
+
     if ($oldversion < 2026100600) {
-        $dbman = $DB->get_manager();
         $table = new xmldb_table('local_courseaudit_analysis');
 
         if (!$dbman->table_exists($table)) {
