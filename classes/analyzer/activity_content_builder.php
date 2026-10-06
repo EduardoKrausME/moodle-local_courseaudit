@@ -5,6 +5,22 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Authored activity content extraction for pedagogical analysis.
+ *
+ * @package   local_courseaudit
+ * @copyright 2026 Eduardo Kraus {@link https://eduardokraus.com}
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 namespace local_courseaudit\analyzer;
 
@@ -333,7 +349,7 @@ class activity_content_builder {
                 try {
                     $parts[] = content_cleaner::limit(content_cleaner::clean_html($file->get_content()), 12000);
                 } catch (Throwable) {
-                    // File metadata is still useful when its text cannot be read.
+                    $parts[] = '';
                 }
             }
 

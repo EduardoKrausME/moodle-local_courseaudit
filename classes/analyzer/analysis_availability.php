@@ -82,7 +82,7 @@ class analysis_availability {
     }
 
     /**
-     * Check if a mod plugin explicitly disabled GeniAI analysis.
+     * Check if a mod plugin explicitly disabled Course Audit analysis.
      *
      * @param string $modname Module name, with or without mod_ prefix.
      * @return bool
@@ -131,12 +131,12 @@ class analysis_availability {
      * @throws \dml_exception
      */
     public static function get_excluded_plugins() {
-        static $analysisexcludedplugins;
-        if ($analysisexcludedplugins) {
-            return $analysisexcludedplugins;
+        static $excluded;
+        if ($excluded) {
+            return $excluded;
         }
 
-        $analysisexcludedplugins = [
+        $excluded = [
             "chat",
             "certificatebeautiful",
             "childcourse",
@@ -150,19 +150,19 @@ class analysis_availability {
             "feedback",
         ];
 
-        $configanalysisexcludedplugins = get_config("local_courseaudit", "analysis_excluded_plugins");
-        $analysisexcludedplugins += explode(",", $configanalysisexcludedplugins);
+        $configured = get_config("local_courseaudit", "analysis_excluded_plugins");
+        $excluded = array_merge($excluded, explode(",", (string) $configured));
 
         $clean = [];
-        foreach ($analysisexcludedplugins as $plugin) {
+        foreach ($excluded as $plugin) {
             $plugin = self::normalize_plugin_name($plugin);
             if ($plugin !== "") {
                 $clean[$plugin] = true;
             }
         }
 
-        $analysisexcludedplugins = array_keys($clean);
-        return $analysisexcludedplugins;
+        $excluded = array_keys($clean);
+        return $excluded;
     }
 
     /**
