@@ -52,7 +52,8 @@ class activity_client {
         if ($messages) {
             $last = count($messages) - 1;
             $schemajson = json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-            $messages[$last]['content'] .= "\n\nReturn one final valid JSON block between ```json and ```.";
+            $fence = str_repeat(chr(96), 3);
+            $messages[$last]['content'] .= "\n\nReturn one final valid JSON block between {$fence}json and {$fence}.";
             $messages[$last]['content'] .= "\nDo not translate JSON field names or enum values.";
             if ($schemajson !== false) {
                 $messages[$last]['content'] .= "\nExpected JSON structure: " . $schemajson;
