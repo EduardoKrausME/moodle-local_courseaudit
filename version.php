@@ -24,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version = 2026100600;
-$plugin->release = '1.1.0';
+$plugin->version = 2026100601;
+$plugin->release = '1.1.1';
 $plugin->component = 'local_courseaudit';
 $plugin->requires = 2024100700;
 $plugin->maturity = MATURITY_STABLE;

@@ -95,5 +95,40 @@ function xmldb_local_courseaudit_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2026100600, 'local', 'courseaudit');
     }
 
+    if ($oldversion < 2026100601) {
+        $oldtable = new xmldb_table('local_geniai_analysis');
+        $newtable = new xmldb_table('local_courseaudit_analysis');
+
+        if ($dbman->table_exists($oldtable) && $dbman->table_exists($newtable)) {
+            $records = $DB->get_records('local_geniai_analysis', [], 'id ASC');
+            foreach ($records as $record) {
+                $exists = $DB->record_exists('local_courseaudit_analysis', [
+                    'courseid' => $record->courseid,
+                    'cmid' => $record->cmid,
+                    'userid' => $record->userid,
+                    'analysis_type' => $record->analysis_type,
+                    'contenthash' => $record->contenthash,
+                    'timecreated' => $record->timecreated,
+                ]);
+                if ($exists) {
+                    continue;
+                }
+
+                unset($record->id);
+                $DB->insert_record('local_courseaudit_analysis', $record);
+            }
+
+            $dbman->drop_table($oldtable);
+        }
+
+        $oldconfig = get_config('local_geniai', 'analysis_excluded_plugins');
+        if ($oldconfig !== false && get_config('local_courseaudit', 'analysis_excluded_plugins') === false) {
+            set_config('analysis_excluded_plugins', $oldconfig, 'local_courseaudit');
+        }
+        unset_config('analysis_excluded_plugins', 'local_geniai');
+
+        upgrade_plugin_savepoint(true, 2026100601, 'local', 'courseaudit');
+    }
+
     return true;
 }
