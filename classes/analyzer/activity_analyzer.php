@@ -31,7 +31,7 @@ use local_courseaudit\ai\activity_client as ai_client;
  */
 class activity_analyzer {
     /**
-     * Analyze an activity using the current GeniAI provider.
+     * Analyze an activity using the configured AI Bridge route.
      *
      * @param int $cmid Course module ID.
      * @param int|null $userid User ID used by get_fast_modinfo.
