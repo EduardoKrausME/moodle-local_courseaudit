@@ -138,4 +138,4 @@ While editing a course, Course Audit adds an **Analyze with AI** control beside 
 
 The review covers spelling and clarity, alignment between section/title/content, pedagogical suitability, practical recommendations, and an explicit predominant Bloom level. Teachers can reopen the latest result or run a new analysis after changing the activity.
 
-Only authored course/activity content is extracted. Learner submissions, grades, messages, names and other learner records are not included. During upgrade, existing activity-analysis history from `local_geniai` is migrated to `local_courseaudit_analysis` when the old table is available.
+Course Audit does not extract assignment submissions, grades, forum posts, private messages, learner names or other learner records. It does analyze content published as part of the activity itself; in collaborative activities such as Wiki or Glossary, published pages or approved entries can therefore be included. During upgrade, existing activity-analysis history from `local_geniai` is migrated to `local_courseaudit_analysis` when the old table is available.
