@@ -45,6 +45,12 @@ class activity_content_builder {
     /** Maximum readable files included in one activity snapshot. */
     private const MAX_FILES = 10;
 
+    /** Maximum approved glossary entries included in one activity snapshot. */
+    private const MAX_GLOSSARY_ENTRIES = 25;
+
+    /** Maximum current wiki pages included in one activity snapshot. */
+    private const MAX_WIKI_PAGES = 10;
+
     /**
      * Build activity content.
      *
@@ -74,6 +80,12 @@ class activity_content_builder {
             case 'page':
                 if ($record) {
                     $content->maincontent = content_cleaner::clean_html($record->content ?? '');
+                }
+                break;
+
+            case 'label':
+                if ($record) {
+                    $content->maincontent = $content->intro;
                 }
                 break;
 
@@ -158,15 +170,33 @@ class activity_content_builder {
                 $content->maincontent = self::files_text($cm, 'mod_folder', 'content');
                 break;
 
+            case 'h5pactivity':
+                if ($record) {
+                    $content->metadata['packagefileid'] = $record->packagefile ?? '';
+                    $content->maincontent =
+                        'H5P package content is not deeply extracted in this version. Analyze title, intro and section alignment.';
+                }
+                break;
+
+            case 'wiki':
+                if ($record) {
+                    $content->metadata['wikimode'] = $record->wikimode ?? '';
+                    $content->metadata['firstpagetitle'] = $record->firstpagetitle ?? '';
+                    $pages = self::wiki_pages((int)$record->id);
+                    $content->maincontent = $pages['content'];
+                    $content->metadata['pages_extracted'] = $pages['count'];
+                }
+                break;
+
             case 'glossary':
                 if ($record && self::table_exists('glossary_entries')) {
                     $entries = $DB->get_records(
                         'glossary_entries',
-                        ['glossaryid' => $record->id],
-                        'id ASC',
+                        ['glossaryid' => $record->id, 'approved' => 1],
+                        'concept ASC',
                         'id,concept,definition',
                         0,
-                        self::MAX_ITEMS
+                        self::MAX_GLOSSARY_ENTRIES
                     );
                     $parts = [];
                     foreach ($entries as $entry) {
@@ -257,6 +287,46 @@ class activity_content_builder {
         } catch (dml_exception) {
             return false;
         }
+    }
+
+    /**
+     * Extract current Wiki pages without reading version history.
+     *
+     * @param int $wikiid Wiki id.
+     * @return array{content: string, count: int}
+     */
+    private static function wiki_pages(int $wikiid): array {
+        global $DB;
+
+        if (!self::table_exists('wiki_subwikis')
+                || !self::table_exists('wiki_pages')
+                || !self::table_exists('wiki_versions')) {
+            return ['content' => '', 'count' => 0];
+        }
+
+        $sql = "SELECT p.id, p.title, v.content
+                  FROM {wiki_subwikis} sw
+                  JOIN {wiki_pages} p ON p.subwikiid = sw.id
+                  JOIN {wiki_versions} v ON v.pageid = p.id AND v.version = p.cachedcontentversion
+                 WHERE sw.wikiid = :wikiid
+              ORDER BY p.title ASC";
+
+        try {
+            $records = $DB->get_records_sql($sql, ['wikiid' => $wikiid], 0, self::MAX_WIKI_PAGES);
+        } catch (dml_exception) {
+            return ['content' => '', 'count' => 0];
+        }
+
+        $parts = [];
+        foreach ($records as $record) {
+            $title = content_cleaner::normalize_text($record->title);
+            $parts[] = "## {$title}\n" . content_cleaner::clean_html($record->content);
+        }
+
+        return [
+            'content' => content_cleaner::limit(implode("\n\n", $parts), 18000),
+            'count' => count($parts),
+        ];
     }
 
     /**
