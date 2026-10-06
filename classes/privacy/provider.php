@@ -1,18 +1,5 @@
 <?php
 // This file is part of Moodle - http://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace local_courseaudit\privacy;
 
@@ -28,9 +15,9 @@ use core_privacy\local\request\userlist;
 use core_privacy\local\request\writer;
 
 /**
- * Privacy provider for persisted audit runs.
+ * Privacy provider for Course Audit data.
  *
- * @package local_courseaudit
+ * @package   local_courseaudit
  * @copyright 2026 Eduardo Kraus {@link https://eduardokraus.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -39,12 +26,11 @@ class provider implements
     \core_privacy\local\request\plugin\provider,
     core_userlist_provider {
 
-
     /**
-     * Method get_metadata.
+     * Describe persisted data.
      *
-     * @param collection $collection Parameter collection.
-     * @return collection Return value.
+     * @param collection $collection Metadata collection.
+     * @return collection
      */
     public static function get_metadata(collection $collection): collection {
         $collection->add_database_table(
@@ -62,33 +48,55 @@ class provider implements
             ],
             'privacy:metadata:runs'
         );
+
+        $collection->add_database_table(
+            'local_courseaudit_analysis',
+            [
+                'courseid' => 'privacy:metadata:analysis:courseid',
+                'cmid' => 'privacy:metadata:analysis:cmid',
+                'userid' => 'privacy:metadata:analysis:userid',
+                'contenthash' => 'privacy:metadata:analysis:contenthash',
+                'resulttext' => 'privacy:metadata:analysis:result',
+                'resultjson' => 'privacy:metadata:analysis:result',
+                'timecreated' => 'privacy:metadata:analysis:timecreated',
+            ],
+            'privacy:metadata:analysis'
+        );
+
         return $collection;
     }
 
-
     /**
-     * Method get_contexts_for_userid.
+     * Get contexts containing user data.
      *
-     * @param int $userid Parameter userid.
-     * @return contextlist Return value.
+     * @param int $userid User id.
+     * @return contextlist
      */
     public static function get_contexts_for_userid(int $userid): contextlist {
         $contextlist = new contextlist();
+
         $sql = "SELECT ctx.id
                   FROM {context} ctx
                   JOIN {local_courseaudit_run} r ON r.courseid = ctx.instanceid
                  WHERE ctx.contextlevel = :contextlevel
                    AND r.userid = :userid";
         $contextlist->add_from_sql($sql, ['contextlevel' => CONTEXT_COURSE, 'userid' => $userid]);
+
+        $sql = "SELECT ctx.id
+                  FROM {context} ctx
+                  JOIN {local_courseaudit_analysis} a ON a.courseid = ctx.instanceid
+                 WHERE ctx.contextlevel = :contextlevel
+                   AND a.userid = :userid";
+        $contextlist->add_from_sql($sql, ['contextlevel' => CONTEXT_COURSE, 'userid' => $userid]);
+
         return $contextlist;
     }
 
-
     /**
-     * Method export_user_data.
+     * Export user data.
      *
-     * @param approved_contextlist $contextlist Parameter contextlist.
-     * @return void Return value.
+     * @param approved_contextlist $contextlist Approved contexts.
+     * @return void
      */
     public static function export_user_data(approved_contextlist $contextlist): void {
         global $DB;
@@ -96,104 +104,142 @@ class provider implements
         if (!$contextlist->count()) {
             return;
         }
+
         $userid = $contextlist->get_user()->id;
         foreach ($contextlist->get_contexts() as $context) {
             if (!$context instanceof context_course) {
                 continue;
             }
+
             $records = $DB->get_records('local_courseaudit_run', [
                 'courseid' => $context->instanceid,
                 'userid' => $userid,
             ], 'timecreated ASC');
+
             foreach ($records as $record) {
-                $data = (object)[
+                writer::with_context($context)->export_data([
+                    get_string('privacy:path', 'local_courseaudit'),
+                    (string)$record->id,
+                ], (object)[
                     'mode' => $record->mode,
                     'sectionid' => $record->sectionid,
                     'findings' => json_decode($record->findingsjson, true) ?: [],
                     'aiused' => transform::yesno($record->aiused),
                     'status' => $record->status,
                     'timecreated' => transform::datetime($record->timecreated),
-                ];
-                writer::with_context($context)->export_data([
-                    get_string('privacy:path', 'local_courseaudit'),
-                    (string)$record->id,
-                ], $data);
+                ]);
             }
-        }
-    }
 
+            $analyses = $DB->get_records('local_courseaudit_analysis', [
+                'courseid' => $context->instanceid,
+                'userid' => $userid,
+            ], 'timecreated ASC');
 
-    /**
-     * Method delete_data_for_all_users_in_context.
-     *
-     * @param context $context Parameter context.
-     * @return void Return value.
-     */
-    public static function delete_data_for_all_users_in_context(context $context): void {
-        global $DB;
-        if ($context->contextlevel !== CONTEXT_COURSE) {
-            return;
-        }
-        $DB->delete_records('local_courseaudit_run', ['courseid' => $context->instanceid]);
-    }
-
-
-    /**
-     * Method delete_data_for_user.
-     *
-     * @param approved_contextlist $contextlist Parameter contextlist.
-     * @return void Return value.
-     */
-    public static function delete_data_for_user(approved_contextlist $contextlist): void {
-        global $DB;
-        $userid = $contextlist->get_user()->id;
-        foreach ($contextlist->get_contexts() as $context) {
-            if ($context->contextlevel === CONTEXT_COURSE) {
-                $DB->delete_records('local_courseaudit_run', [
-                    'courseid' => $context->instanceid,
-                    'userid' => $userid,
+            foreach ($analyses as $analysis) {
+                writer::with_context($context)->export_data([
+                    get_string('privacy:analysispath', 'local_courseaudit'),
+                    (string)$analysis->id,
+                ], (object)[
+                    'cmid' => $analysis->cmid,
+                    'analysis_type' => $analysis->analysis_type,
+                    'status' => $analysis->status,
+                    'bloomlevel' => $analysis->bloomlevel,
+                    'recommendations' => json_decode($analysis->recommendations ?? '[]', true) ?: [],
+                    'content' => $analysis->resulttext,
+                    'timecreated' => transform::datetime($analysis->timecreated),
                 ]);
             }
         }
     }
 
+    /**
+     * Delete data for all users in a context.
+     *
+     * @param context $context Context.
+     * @return void
+     */
+    public static function delete_data_for_all_users_in_context(context $context): void {
+        global $DB;
+
+        if ($context->contextlevel !== CONTEXT_COURSE) {
+            return;
+        }
+
+        $DB->delete_records('local_courseaudit_run', ['courseid' => $context->instanceid]);
+        $DB->delete_records('local_courseaudit_analysis', ['courseid' => $context->instanceid]);
+    }
 
     /**
-     * Method get_users_in_context.
+     * Delete data for one user.
      *
-     * @param userlist $userlist Parameter userlist.
-     * @return void Return value.
+     * @param approved_contextlist $contextlist Approved contexts.
+     * @return void
+     */
+    public static function delete_data_for_user(approved_contextlist $contextlist): void {
+        global $DB;
+
+        $userid = $contextlist->get_user()->id;
+        foreach ($contextlist->get_contexts() as $context) {
+            if ($context->contextlevel !== CONTEXT_COURSE) {
+                continue;
+            }
+
+            $DB->delete_records('local_courseaudit_run', [
+                'courseid' => $context->instanceid,
+                'userid' => $userid,
+            ]);
+            $DB->delete_records('local_courseaudit_analysis', [
+                'courseid' => $context->instanceid,
+                'userid' => $userid,
+            ]);
+        }
+    }
+
+    /**
+     * Add users represented in a context.
+     *
+     * @param userlist $userlist User list.
+     * @return void
      */
     public static function get_users_in_context(userlist $userlist): void {
         $context = $userlist->get_context();
         if ($context->contextlevel !== CONTEXT_COURSE) {
             return;
         }
+
         $sql = "SELECT r.userid
                   FROM {local_courseaudit_run} r
                  WHERE r.courseid = :courseid";
         $userlist->add_from_sql('userid', $sql, ['courseid' => $context->instanceid]);
+
+        $sql = "SELECT a.userid
+                  FROM {local_courseaudit_analysis} a
+                 WHERE a.courseid = :courseid";
+        $userlist->add_from_sql('userid', $sql, ['courseid' => $context->instanceid]);
     }
 
-
     /**
-     * Method delete_data_for_users.
+     * Delete data for an approved user list.
      *
-     * @param approved_userlist $userlist Parameter userlist.
-     * @return void Return value.
+     * @param approved_userlist $userlist Approved users.
+     * @return void
      */
     public static function delete_data_for_users(approved_userlist $userlist): void {
         global $DB;
+
         $context = $userlist->get_context();
         if ($context->contextlevel !== CONTEXT_COURSE) {
             return;
         }
+
         $userids = $userlist->get_userids();
         if (!$userids) {
             return;
         }
+
         [$insql, $params] = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED);
         $params['courseid'] = $context->instanceid;
         $DB->delete_records_select('local_courseaudit_run', "courseid = :courseid AND userid {$insql}", $params);
+        $DB->delete_records_select('local_courseaudit_analysis', "courseid = :courseid AND userid {$insql}", $params);
     }
 }

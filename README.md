@@ -131,3 +131,11 @@ Findings are grouped into:
 Each finding records severity, title, plain-text description, origin (`Moodle rule` or `AI analysis`), related item,
 evidence/suggestion where applicable, and a direct Moodle edit URL when the finding belongs to a concrete
 section/activity.
+
+## Activity-level AI analysis
+
+While editing a course, Course Audit adds an **Analyze with AI** control beside supported activities. It uses the same `courseaudit-analysis` AI Bridge purpose and stores content-hash-aware history for each activity.
+
+The review covers spelling and clarity, alignment between section/title/content, pedagogical suitability, practical recommendations, and an explicit predominant Bloom level. Teachers can reopen the latest result or run a new analysis after changing the activity.
+
+Only authored course/activity content is extracted. Learner submissions, grades, messages, names and other learner records are not included. During upgrade, existing activity-analysis history from `local_geniai` is migrated to `local_courseaudit_analysis` when the old table is available.

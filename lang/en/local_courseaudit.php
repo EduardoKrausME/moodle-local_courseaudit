@@ -127,3 +127,69 @@ $string['summaryai'] = 'AI insights';
 $string['summaryerrors'] = 'errors';
 $string['summarysuggestions'] = 'suggestions';
 $string['summarywarnings'] = 'warnings';
+
+$string['analysis_ai_block'] = 'Course Audit AI analysis';
+$string['analysis_close'] = 'Close';
+$string['analysis_error'] = 'Could not analyze this activity.';
+$string['analysis_excluded_plugins'] = 'Modules excluded from activity analysis';
+$string['analysis_excluded_plugins_desc'] = 'The selected modules will not display activity analysis controls and will be excluded from activity-by-activity course analysis.';
+$string['analysis_last'] = 'Last analysis';
+$string['analysis_latest'] = 'Latest analysis';
+$string['analysis_model_warning'] = 'This analysis used a mini/nano model. For deeper analysis, configure the courseaudit-analysis route in AI Bridge with a larger model.';
+$string['analysis_no_content'] = 'No analysis content was returned.';
+$string['analysis_not_supported'] = 'This activity type is not available for Course Audit analysis.';
+$string['analysis_print'] = 'Print';
+$string['analysis_print_analysis'] = 'Print analysis';
+$string['analysis_print_popup_blocked'] = 'The browser blocked the print tab. Allow pop-ups and try again.';
+$string['analysis_reanalyze'] = 'Analyze again';
+$string['analysis_recommendations'] = 'Recommendations';
+$string['analysis_result'] = 'Activity analysis';
+$string['analysis_status_insufficient'] = 'Insufficient';
+$string['analysis_status_needs_review'] = 'Needs review';
+$string['analysis_status_ok'] = 'OK';
+$string['analysis_status_ok_minor'] = 'OK with minor adjustments';
+$string['analyze_activity'] = 'Analyze with AI';
+$string['analyze_course'] = 'Analyze course activities with AI';
+$string['analyzing_activity'] = 'Analyzing spelling, pedagogical coherence and Bloom taxonomy...';
+$string['analyzing_course'] = 'Analyzing course activities...';
+$string['prompt_activity_focus_alignment'] = 'prioritize coherence between course, section, title, and activity content.';
+$string['prompt_activity_focus_bloom'] = 'prioritize Bloom taxonomy and the cognitive depth of the proposal.';
+$string['prompt_activity_focus_full'] = 'complete activity analysis.';
+$string['prompt_activity_focus_pedagogy'] = 'prioritize pedagogical adequacy, student instructions, and learning quality.';
+$string['prompt_activity_focus_spelling'] = 'prioritize spelling, grammar, clarity, and instructional tone.';
+$string['prompt_activity_schema_bloom_level'] = 'remember | understand | apply | analyze | evaluate | create';
+$string['prompt_activity_schema_diagnosis'] = 'Short summary of the general diagnosis.';
+$string['prompt_activity_schema_recommendation_1'] = 'Practical action 1.';
+$string['prompt_activity_schema_recommendation_2'] = 'Practical action 2.';
+$string['prompt_activity_schema_status'] = 'OK | OK with minor adjustments | Needs review | Inadequate or insufficient';
+$string['prompt_activity_schema_status_key'] = 'ok | ok_minor | needs_review | insufficient';
+$string['prompt_activity_system'] = 'You are an expert in instructional design, text review, and Moodle.
+
+Analyze an existing Moodle activity using only the supplied authored content. Never infer learner data.
+Write the visible Markdown analysis in the current Moodle language: {$a->lang}.
+Keep technical JSON field names and enum values in English.
+If content is insufficient, say so clearly.
+
+Criteria:
+1. Spelling, grammar and textual clarity.
+2. Coherence between activity title, course section and activity content.
+3. Predominant Bloom level: remember, understand, apply, analyze, evaluate, create.
+4. Pedagogical adequacy.
+5. Practical improvement suggestions.
+
+Additional focus: {$a->focus}
+
+Return visible Markdown with diagnosis, spelling/clarity, section coherence, Bloom taxonomy, improvements and final opinion.
+The final classification must be exactly one of: OK, OK with minor adjustments, Needs review, Inadequate or insufficient.
+Requested analysis type: {$a->analysis}';
+$string['prompt_activity_user'] = 'Analyze the Moodle activity below.
+
+{$a}';
+$string['privacy:metadata:analysis'] = 'Activity-level pedagogical analyses stored as Course Audit history.';
+$string['privacy:metadata:analysis:courseid'] = 'The course containing the analyzed activity.';
+$string['privacy:metadata:analysis:cmid'] = 'The analyzed course module.';
+$string['privacy:metadata:analysis:userid'] = 'The user who requested the analysis.';
+$string['privacy:metadata:analysis:contenthash'] = 'A hash used to reuse analysis when authored activity content did not change.';
+$string['privacy:metadata:analysis:result'] = 'Structured status, Bloom level, recommendations and analysis text.';
+$string['privacy:metadata:analysis:timecreated'] = 'When the activity analysis was created.';
+$string['privacy:analysispath'] = 'Activity analyses';

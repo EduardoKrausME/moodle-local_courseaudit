@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/courseaudit/db" VERSION="20260930" COMMENT="XMLDB file for local_courseaudit"
+<XMLDB PATH="local/courseaudit/db" VERSION="20261006" COMMENT="XMLDB file for local_courseaudit"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
     <TABLES>
@@ -24,6 +24,36 @@
             </KEYS>
             <INDEXES>
                 <INDEX NAME="lookup_idx" UNIQUE="false" FIELDS="courseid,userid,mode,sectionid,contenthash,status"/>
+            </INDEXES>
+        </TABLE>
+        <TABLE NAME="local_courseaudit_analysis" COMMENT="Activity-level AI pedagogical analysis history">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+                <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+                <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+                <FIELD NAME="analysis_type" TYPE="char" LENGTH="50" NOTNULL="true" DEFAULT="full" SEQUENCE="false"/>
+                <FIELD NAME="contenthash" TYPE="char" LENGTH="40" NOTNULL="true" SEQUENCE="false"/>
+                <FIELD NAME="status" TYPE="char" LENGTH="80" NOTNULL="false" SEQUENCE="false"/>
+                <FIELD NAME="statuskey" TYPE="char" LENGTH="30" NOTNULL="false" SEQUENCE="false"/>
+                <FIELD NAME="bloomlevel" TYPE="char" LENGTH="30" NOTNULL="false" SEQUENCE="false"/>
+                <FIELD NAME="model" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false"/>
+                <FIELD NAME="prompttokens" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+                <FIELD NAME="completiontokens" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+                <FIELD NAME="recommendations" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+                <FIELD NAME="resulttext" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+                <FIELD NAME="resultjson" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+                <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+                <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="courseid" UNIQUE="false" FIELDS="courseid"/>
+                <INDEX NAME="cmid" UNIQUE="false" FIELDS="cmid"/>
+                <INDEX NAME="cm_hash" UNIQUE="false" FIELDS="cmid,contenthash"/>
+                <INDEX NAME="course_type_time" UNIQUE="false" FIELDS="courseid,analysis_type,timecreated"/>
             </INDEXES>
         </TABLE>
     </TABLES>
