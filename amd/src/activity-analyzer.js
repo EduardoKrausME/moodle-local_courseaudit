@@ -526,9 +526,10 @@ define(["jquery", "core/ajax", "core/notification", "core/templates"], function 
         var title = currentActivityName || M.util.get_string("analysis_result", "local_courseaudit");
         var safeTitle = escapeHtml(title);
         var content = currentPrintHtml || '<pre>' + escapeHtml(currentPlainText) + '</pre>';
+        var language = escapeHtml(document.documentElement.lang || "en");
 
         return `<!doctype html>
-            <html lang="pt-br">
+            <html lang="${language}">
             <head>
                 <meta charset="utf-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
