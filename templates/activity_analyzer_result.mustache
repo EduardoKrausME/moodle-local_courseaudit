@@ -38,7 +38,7 @@
         <div class="badge badge-info mb-2 local-courseaudit-analysis-status">{{status}}</div>
     {{/status}}
     {{#bloom_level}}
-        <div class="badge badge-secondary mb-2 local-courseaudit-analysis-bloom">Bloom: {{bloom_level}}</div>
+        <div class="badge badge-secondary mb-2 local-courseaudit-analysis-bloom">{{#str}}analysis_bloom, local_courseaudit{{/str}}: {{bloom_level}}</div>
     {{/bloom_level}}
 
     {{#has_recommendations}}
