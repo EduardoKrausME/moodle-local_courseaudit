@@ -32,7 +32,7 @@ use Throwable;
 use xmldb_table;
 
 /**
- * Extract authored activity content for pedagogical analysis without learner data.
+ * Extract pedagogical content while excluding learner-authored contributions.
  *
  * @package   local_courseaudit
  * @copyright 2026 Eduardo Kraus {@link https://eduardokraus.com}
@@ -47,9 +47,6 @@ class activity_content_builder {
 
     /** Maximum approved glossary entries included in one activity snapshot. */
     private const MAX_GLOSSARY_ENTRIES = 25;
-
-    /** Maximum current wiki pages included in one activity snapshot. */
-    private const MAX_WIKI_PAGES = 10;
 
     /**
      * Build activity content.
@@ -182,9 +179,11 @@ class activity_content_builder {
                 if ($record) {
                     $content->metadata['wikimode'] = $record->wikimode ?? '';
                     $content->metadata['firstpagetitle'] = $record->firstpagetitle ?? '';
-                    $pages = self::wiki_pages((int)$record->id);
-                    $content->maincontent = $pages['content'];
-                    $content->metadata['pages_extracted'] = $pages['count'];
+                    // Wiki pages may contain edits by multiple learners, even if a teacher edited last.
+                    // Exclude them rather than sending learner-authored text to the AI provider.
+                    $content->maincontent = '';
+                    $content->metadata['pages_extracted'] = 0;
+                    $content->metadata['wiki_pages_excluded'] = true;
                 }
                 break;
 
@@ -194,14 +193,22 @@ class activity_content_builder {
                         'glossary_entries',
                         ['glossaryid' => $record->id, 'approved' => 1],
                         'concept ASC',
-                        'id,concept,definition',
+                        'id,userid,concept,definition',
                         0,
-                        self::MAX_GLOSSARY_ENTRIES
+                        self::MAX_GLOSSARY_ENTRIES * 4
                     );
                     $parts = [];
+                    $modulecontext = context_module::instance($cm->id);
                     foreach ($entries as $entry) {
+                        // Glossary approval alone does not establish teacher authorship.
+                        if (!has_capability('moodle/course:manageactivities', $modulecontext, (int)$entry->userid)) {
+                            continue;
+                        }
                         $parts[] = '## ' . content_cleaner::normalize_text($entry->concept)
                             . "\n" . content_cleaner::clean_html($entry->definition);
+                        if (count($parts) >= self::MAX_GLOSSARY_ENTRIES) {
+                            break;
+                        }
                     }
                     $content->maincontent = content_cleaner::limit(implode("\n\n", $parts), 18000);
                     $content->metadata['entries_extracted'] = count($parts);
@@ -287,46 +294,6 @@ class activity_content_builder {
         } catch (dml_exception) {
             return false;
         }
-    }
-
-    /**
-     * Extract current Wiki pages without reading version history.
-     *
-     * @param int $wikiid Wiki id.
-     * @return array{content: string, count: int}
-     */
-    private static function wiki_pages(int $wikiid): array {
-        global $DB;
-
-        if (!self::table_exists('wiki_subwikis')
-                || !self::table_exists('wiki_pages')
-                || !self::table_exists('wiki_versions')) {
-            return ['content' => '', 'count' => 0];
-        }
-
-        $sql = "SELECT p.id, p.title, v.content
-                  FROM {wiki_subwikis} sw
-                  JOIN {wiki_pages} p ON p.subwikiid = sw.id
-                  JOIN {wiki_versions} v ON v.pageid = p.id AND v.version = p.cachedcontentversion
-                 WHERE sw.wikiid = :wikiid
-              ORDER BY p.title ASC";
-
-        try {
-            $records = $DB->get_records_sql($sql, ['wikiid' => $wikiid], 0, self::MAX_WIKI_PAGES);
-        } catch (dml_exception) {
-            return ['content' => '', 'count' => 0];
-        }
-
-        $parts = [];
-        foreach ($records as $record) {
-            $title = content_cleaner::normalize_text($record->title);
-            $parts[] = "## {$title}\n" . content_cleaner::clean_html($record->content);
-        }
-
-        return [
-            'content' => content_cleaner::limit(implode("\n\n", $parts), 18000),
-            'count' => count($parts),
-        ];
     }
 
     /**
