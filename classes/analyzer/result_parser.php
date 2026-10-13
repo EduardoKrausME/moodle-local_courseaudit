@@ -225,7 +225,7 @@ class result_parser {
      */
     private static function status_label_from_key($key) {
         $labels = [
-            "ok" => "OK",
+            "ok" => get_string("analysis_status_ok", "local_courseaudit"),
             "ok_minor" => get_string("analysis_status_ok_minor", "local_courseaudit"),
             "needs_review" => get_string("analysis_status_needs_review", "local_courseaudit"),
             "insufficient" => get_string("analysis_status_insufficient", "local_courseaudit"),
