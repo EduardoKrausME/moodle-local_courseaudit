@@ -116,7 +116,32 @@ class analysis_history extends external_api {
         self::validate_context($coursecontext);
         require_capability('local/courseaudit:audit', $coursecontext);
 
-        $records = analysis_repository::list_history($course->id, $params["cmid"], min(200, max(1, $params["limit"])));
+        // Course audit permission does not imply permission to view a restricted module.
+        $modinfo = get_fast_modinfo($course);
+        $cms = $modinfo->get_cms();
+        $cmid = (int)$params["cmid"];
+        if ($cmid < 0) {
+            throw new \invalid_parameter_exception('Course module ID must be non-negative.');
+        }
+        if ($cmid > 0) {
+            if (!isset($cms[$cmid]) || empty($cms[$cmid]->uservisible) ||
+                    !empty($cms[$cmid]->deletioninprogress)) {
+                throw new \invalid_parameter_exception('Course module is not available for analysis history.');
+            }
+            $visiblecmids = [$cmid];
+        } else {
+            // Course-level analyses (cmid zero) are accessible to course auditors.
+            $visiblecmids = [0];
+            foreach ($cms as $cm) {
+                if (!empty($cm->uservisible) && empty($cm->deletioninprogress)) {
+                    $visiblecmids[] = (int)$cm->id;
+                }
+            }
+        }
+
+        $records = analysis_repository::list_history(
+            $course->id, $cmid, min(200, max(1, $params["limit"])), $visiblecmids
+        );
         $items = [];
 
         foreach ($records as $record) {
