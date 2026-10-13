@@ -74,6 +74,21 @@ class text_sanitizer {
      */
     public static function for_ai(?string $value, int $limit = 4000): string {
         $value = self::plain($value);
+        $value = self::redact_for_ai($value);
+
+        if ($limit > 0 && self::strlen($value) > $limit) {
+            $value = self::substr($value, 0, $limit) . '…';
+        }
+        return $value;
+    }
+
+    /**
+     * Redact identifiers without flattening structured activity prompts.
+     *
+     * @param string $value Activity prompt text.
+     * @return string
+     */
+    public static function redact_for_ai(string $value): string {
         $patterns = [
             '/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/iu' => '[email removed]',
             '/\bBearer\s+[A-Za-z0-9._~+\/-]+=*/i' => '[token removed]',
@@ -83,9 +98,6 @@ class text_sanitizer {
             $value = preg_replace($pattern, $replacement, $value) ?? $value;
         }
 
-        if ($limit > 0 && self::strlen($value) > $limit) {
-            $value = self::substr($value, 0, $limit) . '…';
-        }
         return $value;
     }
 
