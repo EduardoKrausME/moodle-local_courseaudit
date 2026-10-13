@@ -92,7 +92,9 @@ class prompt_builder {
      * @return string
      */
     private static function user_prompt(activity_content $content) {
-        return get_string("prompt_activity_user", "local_courseaudit", $content->to_prompt_text());
+        // Redact common identifiers while preserving headings and line breaks.
+        $safecontent = \local_courseaudit\text_sanitizer::redact_for_ai($content->to_prompt_text());
+        return get_string("prompt_activity_user", "local_courseaudit", $safecontent);
     }
 
     /**
