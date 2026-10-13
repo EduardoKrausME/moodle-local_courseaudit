@@ -84,6 +84,15 @@ class provider implements
             'privacy:metadata:analysis'
         );
 
+        // Course and activity prompts are sent through AI Bridge to an AI provider.
+        $collection->add_external_location_link('ai_provider', [
+            'course_text' => 'privacy:metadata:ai_provider:course_text',
+            'section_text' => 'privacy:metadata:ai_provider:section_text',
+            'activity_text' => 'privacy:metadata:ai_provider:activity_text',
+            'question_text' => 'privacy:metadata:ai_provider:question_text',
+        ], 'privacy:metadata:ai_provider');
+        $collection->add_plugintype_link('local_ai_bridge', [], 'privacy:metadata:ai_bridge');
+
         return $collection;
     }
 
