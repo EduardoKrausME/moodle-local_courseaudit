@@ -158,10 +158,11 @@ class analysis_repository {
      * @param int $courseid Course ID.
      * @param int $cmid Course module ID, or 0 for whole course.
      * @param int $limit Max records.
+     * @param int[]|null $visiblecmids Visible course modules, including 0 for course-level analyses.
      * @return array
      * @throws \dml_exception
      */
-    public static function list_history($courseid, $cmid = 0, $limit = 50) {
+    public static function list_history($courseid, $cmid = 0, $limit = 50, ?array $visiblecmids = null) {
         global $DB;
 
         if (!self::table_exists()) {
@@ -174,6 +175,16 @@ class analysis_repository {
         if ($cmid > 0) {
             $where .= ' AND cmid = :cmid';
             $params["cmid"] = $cmid;
+        }
+
+        if ($visiblecmids !== null) {
+            $visiblecmids = array_values(array_unique(array_map('intval', $visiblecmids)));
+            if (!$visiblecmids) {
+                return [];
+            }
+            [$insql, $inparams] = $DB->get_in_or_equal($visiblecmids, SQL_PARAMS_NAMED, 'visiblecm');
+            $where .= " AND cmid {$insql}";
+            $params = array_merge($params, $inparams);
         }
 
         return $DB->get_records_select(self::TABLE, $where, $params, 'id DESC', '*', 0, $limit);
