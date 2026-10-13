@@ -138,4 +138,10 @@ While editing a course, Course Audit adds an **Analyze with AI** control beside 
 
 The review covers spelling and clarity, alignment between section/title/content, pedagogical suitability, practical recommendations, and an explicit predominant Bloom level. Teachers can reopen the latest result or run a new analysis after changing the activity.
 
-Course Audit does not extract assignment submissions, grades, forum posts, private messages, learner names or other learner records. It does analyze content published as part of the activity itself; in collaborative activities such as Wiki or Glossary, published pages or approved entries can therefore be included. During upgrade, existing activity-analysis history from `local_geniai` is migrated to `local_courseaudit_analysis` when the old table is available.
+Course Audit does not extract assignment submissions, grades, forum posts, private messages, learner names or other learner records. Collaborative wiki pages are excluded because they can contain multiple learners' edits. Approved glossary entries are included only when their author currently has permission to manage activities in that module; approval alone does not establish teacher authorship. Common emails and credential patterns in activity prompts are redacted before submitting to AI Bridge, and the Privacy API declares the external transfer. Existing activity-analysis history from `local_geniai` is migrated to `local_courseaudit_analysis` when the old table is available.
+
+## Installable ZIP and issue tracker
+
+Moodle requires a ZIP with `courseaudit/` as its root folder, not GitHub's automatically generated source archive directory. On every push, CI publishes the installer-ready `local_courseaudit.zip` as the `local_courseaudit-installable` workflow artifact. Extract the GitHub Actions artifact wrapper to obtain the actual plugin ZIP. Future releases will attach this ZIP directly; this change does not publish a new release.
+
+Report defects through the [GitHub issues page](https://github.com/EduardoKrausME/moodle-local_courseaudit/issues). The Moodle Plugins directory's issue tracker field must also be edited separately by a Marketplace maintainer.
