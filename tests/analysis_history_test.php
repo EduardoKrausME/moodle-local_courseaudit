@@ -27,6 +27,31 @@ use local_courseaudit\analyzer\analysis_repository;
  */
 final class analysis_history_test extends advanced_testcase {
     /**
+     * A course auditor who cannot view a hidden page cannot read its analysis.
+     */
+    public function test_external_history_rejects_hidden_module(): void {
+        global $DB;
+
+        $this->resetAfterTest(true);
+        $course = $this->getDataGenerator()->create_course();
+        $student = $this->getDataGenerator()->create_user();
+        $roleid = (int)$DB->get_field('role', 'id', ['shortname' => 'student'], MUST_EXIST);
+        $this->getDataGenerator()->enrol_user($student->id, $course->id, $roleid);
+        $context = \context_course::instance($course->id);
+        role_change_permission($roleid, $context, 'local/courseaudit:audit', CAP_ALLOW);
+        $hidden = $this->getDataGenerator()->create_module('page', [
+            'course' => $course->id,
+            'visible' => 0,
+        ]);
+        $this->setUser($student);
+
+        $this->assertTrue(has_capability('local/courseaudit:audit', $context));
+        $this->assertFalse(get_fast_modinfo($course)->get_cm($hidden->cmid)->uservisible);
+        $this->expectException(\invalid_parameter_exception::class);
+        \local_courseaudit\external\analysis_history::api($course->id, $hidden->cmid, 10);
+    }
+
+    /**
      * Apply the visible module filter before the SQL result limit.
      */
     public function test_history_filters_disallowed_modules_before_limit(): void {
