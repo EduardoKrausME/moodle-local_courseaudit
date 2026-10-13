@@ -37,6 +37,18 @@ final class text_sanitizer_test extends advanced_testcase {
     }
 
     /**
+     * Preserve activity prompt structure while redacting identifiers.
+     */
+    public function test_redact_for_ai_keeps_newlines_and_removes_identifiers(): void {
+        $prompt = "## Summary\nContact teacher@example.org. Bearer abc.def\npassword=secret";
+        $result = text_sanitizer::redact_for_ai($prompt);
+        $this->assertStringContainsString("## Summary\n", $result);
+        $this->assertStringNotContainsString('teacher@example.org', $result);
+        $this->assertStringNotContainsString('abc.def', $result);
+        $this->assertStringNotContainsString('password=secret', $result);
+    }
+
+    /**
      * Normalize equivalent content for deterministic hashes.
      */
     public function test_normalize_is_case_and_punctuation_insensitive(): void {
