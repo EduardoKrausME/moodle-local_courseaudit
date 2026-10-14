@@ -32,8 +32,6 @@ use core_external\external_single_structure;
 use core_external\external_value;
 use local_courseaudit\analyzer\analysis_repository;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Class analysis_history
  */

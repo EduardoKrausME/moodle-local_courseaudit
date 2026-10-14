@@ -32,8 +32,6 @@ use core_external\external_single_structure;
 use core_external\external_value;
 use local_courseaudit\analyzer\course_analyzer;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Class analyze_course
  */
