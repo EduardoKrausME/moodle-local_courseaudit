@@ -22,8 +22,10 @@ use local_courseaudit\analyzer\analysis_repository;
 /**
  * Analysis history visibility.
  *
- * @covers \local_courseaudit\analyzer\analysis_repository
+ * @coversNothing
  * @package local_courseaudit
+ * @copyright 2026 Eduardo Kraus {@link https://eduardokraus.com}
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class analysis_history_test extends advanced_testcase {
     /**
