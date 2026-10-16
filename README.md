@@ -140,6 +140,38 @@ The review covers spelling and clarity, alignment between section/title/content,
 
 Course Audit does not extract assignment submissions, grades, forum posts, private messages, learner names or other learner records. Collaborative wiki pages are excluded because they can contain multiple learners' edits. Approved glossary entries are included only when their author currently has permission to manage activities in that module; approval alone does not establish teacher authorship. Common emails and credential patterns in activity prompts are redacted before submitting to AI Bridge, and the Privacy API declares the external transfer. Existing activity-analysis history from `local_geniai` is migrated to `local_courseaudit_analysis` when the old table is available.
 
+## Moodle MCP integration (optional)
+
+When [local_mcp](https://github.com/EduardoKrausME/moodle-local_mcp) is installed, it discovers
+`local_courseaudit\mcp\provider` from `classes/mcp/provider.php` automatically. The integration is
+optional: no `version.php` dependency, web-service token, callback in `lib.php`, or manual registration
+is necessary. Refresh the ChatGPT custom MCP connection after updating the Moodle plugin.
+
+The provider exposes three tools:
+
+| Tool | Scope | Description |
+| --- | --- | --- |
+| `courseaudit_list_runs` | READ | List saved run metadata for the connected user and course, with pagination. |
+| `courseaudit_get_report` | READ | Retrieve saved findings with severity filtering and pagination, including their original evidence and Moodle edit links. |
+| `courseaudit_run_audit` | WRITE | Run the native `audit_manager` with mode, section filter and force-recheck controls, after preview and confirmation. |
+
+All tools require `local/courseaudit:audit` in the course context, in addition to the correct
+MCP READ or WRITE scope. History is always restricted to the connected Moodle user's own
+runs for the selected course, even when another user has the same course permissions.
+The READ tools never create reports or call AI.
+
+A confirmed WRITE call defaults to `mode="structure"`, using deterministic PHP checks
+without consuming AI credits. Explicit `mode="full"` or `mode="contentai"` may send
+sanitized course content to `local_ai_bridge` and consume credits. `force=true` bypasses
+cached results. `sectionid` is a Moodle `course_sections.id` in the selected course;
+zero means all sections. The confirmation preview states whether AI may run, whether a
+report might be cached and that no course content is modified.
+
+The WRITE result returns summary counts, at most ten findings and the saved `runid` when
+available. Retrieve the full report in pages with `courseaudit_get_report`. Each READ
+response is limited to 50 records to avoid oversized MCP payloads. Moodle reports remain
+advisory; no course activities, grades or questions are changed by these tools.
+
 ## Installable ZIP and issue tracker
 
 Moodle requires a ZIP with `courseaudit/` as its root folder, not GitHub's automatically generated source archive directory. On every push, CI publishes the installer-ready `local_courseaudit.zip` as the `local_courseaudit-installable` workflow artifact. Extract the GitHub Actions artifact wrapper to obtain the actual plugin ZIP. Future releases will attach this ZIP directly; this change does not publish a new release.
