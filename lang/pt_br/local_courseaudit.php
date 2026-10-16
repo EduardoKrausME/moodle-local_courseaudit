@@ -119,6 +119,17 @@ $string['forcerun_help'] = 'Por padrão, uma auditoria concluída é reutilizada
 $string['intro'] = 'Primeiro verifica configurações objetivas do Moodle e usa IA apenas para interpretação semântica e pedagógica. Nenhuma correção é aplicada automaticamente.';
 $string['invalidmode'] = 'Modo de auditoria inválido.';
 $string['invalidsection'] = 'A seção selecionada não pertence a este curso.';
+$string["mcpgetreport"] = "Consultar relatório salvo de auditoria";
+$string["mcpgetreportdesc"] = "Consulta um relatório de auditoria estruturado e paginado criado pelo usuário Moodle conectado; permite filtrar por gravidade sem executar IA.";
+$string["mcpinvalidmode"] = "O modo de auditoria MCP informado não é suportado.";
+$string["mcpinvalidsection"] = "A seção informada não pertence ao curso selecionado.";
+$string["mcpinvalidseverity"] = "O filtro de gravidade da auditoria não é suportado.";
+$string["mcplistruns"] = "Listar minhas auditorias de cursos";
+$string["mcplistrunsdesc"] = "Lista as auditorias salvas e seus estados para um curso, restritas ao usuário Moodle conectado. Não inicia uma auditoria.";
+$string["mcprunaudit"] = "Executar auditoria de curso Moodle";
+$string["mcprunauditdesc"] = "Executa o gerenciador existente após prévia e confirmação. O modo structure não usa IA; os modos full e contentai podem consumir créditos de IA e salvar apontamentos.";
+$string["mcpruncorrupt"] = "O relatório de auditoria salvo está inválido.";
+$string["mcprunmissing"] = "O relatório solicitado não está acessível neste curso.";
 $string['mode'] = 'Modo de auditoria';
 $string['modecontentai'] = 'Somente conteúdo e análise por IA';
 $string['modefull'] = 'Auditoria completa';
@@ -186,17 +197,6 @@ Tipo de análise solicitado: {$a->analysis}';
 $string['prompt_activity_user'] = 'Analise a atividade do Moodle abaixo.
 
 {$a}';
-$string["mcpgetreport"] = "Consultar relatório salvo de auditoria";
-$string["mcpgetreportdesc"] = "Consulta um relatório de auditoria estruturado e paginado criado pelo usuário Moodle conectado; permite filtrar por gravidade sem executar IA.";
-$string["mcpinvalidmode"] = "O modo de auditoria MCP informado não é suportado.";
-$string["mcpinvalidsection"] = "A seção informada não pertence ao curso selecionado.";
-$string["mcpinvalidseverity"] = "O filtro de gravidade da auditoria não é suportado.";
-$string["mcplistruns"] = "Listar minhas auditorias de cursos";
-$string["mcplistrunsdesc"] = "Lista as auditorias salvas e seus estados para um curso, restritas ao usuário Moodle conectado. Não inicia uma auditoria.";
-$string["mcprunaudit"] = "Executar auditoria de curso Moodle";
-$string["mcprunauditdesc"] = "Executa o gerenciador existente após prévia e confirmação. O modo structure não usa IA; os modos full e contentai podem consumir créditos de IA e salvar apontamentos.";
-$string["mcpruncorrupt"] = "O relatório de auditoria salvo está inválido.";
-$string["mcprunmissing"] = "O relatório solicitado não está acessível neste curso.";
 $string['related'] = 'Item relacionado';
 $string['runaudit'] = 'Executar auditoria';
 $string['sectionfilter'] = 'Seção';

@@ -34,6 +34,8 @@ use local_mcp\security\authenticated_identity;
  */
 abstract class base_read extends base_tool {
     /**
+     * Return the required course-level audit capability.
+     *
      * @return string
      */
     public function get_required_capability(): string {
@@ -41,6 +43,8 @@ abstract class base_read extends base_tool {
     }
 
     /**
+     * Resolve the course context for capability enforcement.
+     *
      * @param array $arguments Tool parameters.
      * @return context
      */

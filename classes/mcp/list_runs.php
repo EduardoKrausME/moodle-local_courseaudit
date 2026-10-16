@@ -31,6 +31,8 @@ use local_mcp\security\authenticated_identity;
  */
 final class list_runs extends base_read {
     /**
+     * Return the MCP tool identifier.
+     *
      * @return string
      */
     public function get_name(): string {
@@ -38,6 +40,8 @@ final class list_runs extends base_read {
     }
 
     /**
+     * Return the translated MCP tool title.
+     *
      * @return string
      */
     public function get_title(): string {
@@ -45,6 +49,8 @@ final class list_runs extends base_read {
     }
 
     /**
+     * Return the translated MCP tool description.
+     *
      * @return string
      */
     public function get_description(): string {
@@ -52,6 +58,8 @@ final class list_runs extends base_read {
     }
 
     /**
+     * Declare the validated MCP argument schema.
+     *
      * @return array
      */
     public function get_input_schema(): array {
@@ -63,6 +71,8 @@ final class list_runs extends base_read {
     }
 
     /**
+     * Execute the authorized course-audit operation.
+     *
      * @param array $arguments Tool parameters.
      * @param authenticated_identity $identity Connected Moodle user.
      * @return array

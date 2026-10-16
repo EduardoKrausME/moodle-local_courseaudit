@@ -119,6 +119,17 @@ $string['forcerun_help'] = 'By default, a completed audit is reused when the cou
 $string['intro'] = 'Checks objective Moodle configuration first and uses AI only for semantic and pedagogical interpretation. No correction is applied automatically.';
 $string['invalidmode'] = 'Invalid audit mode.';
 $string['invalidsection'] = 'The selected section does not belong to this course.';
+$string["mcpgetreport"] = "Get saved course-audit report";
+$string["mcpgetreportdesc"] = "Read a paginated structured audit report created by the connected Moodle user; filter by severity without running AI.";
+$string["mcpinvalidmode"] = "Unsupported MCP course-audit mode.";
+$string["mcpinvalidsection"] = "The requested section does not belong to the selected course.";
+$string["mcpinvalidseverity"] = "Unsupported audit severity filter.";
+$string["mcplistruns"] = "List my course-audit runs";
+$string["mcplistrunsdesc"] = "List the connected Moodle user's saved audit runs and their statuses for a course. This does not start an audit.";
+$string["mcprunaudit"] = "Run a Moodle course audit";
+$string["mcprunauditdesc"] = "Run the existing course audit manager after a confirmation preview. Structure mode does not call AI; full and contentai modes may consume AI credits and store findings.";
+$string["mcpruncorrupt"] = "The saved audit report is invalid.";
+$string["mcprunmissing"] = "The requested audit report is not accessible in this course.";
 $string['mode'] = 'Audit mode';
 $string['modecontentai'] = 'Content and AI analysis only';
 $string['modefull'] = 'Complete audit';
@@ -186,17 +197,6 @@ Requested analysis type: {$a->analysis}';
 $string['prompt_activity_user'] = 'Analyze the Moodle activity below.
 
 {$a}';
-$string["mcpgetreport"] = "Get saved course-audit report";
-$string["mcpgetreportdesc"] = "Read a paginated structured audit report created by the connected Moodle user; filter by severity without running AI.";
-$string["mcpinvalidmode"] = "Unsupported MCP course-audit mode.";
-$string["mcpinvalidsection"] = "The requested section does not belong to the selected course.";
-$string["mcpinvalidseverity"] = "Unsupported audit severity filter.";
-$string["mcplistruns"] = "List my course-audit runs";
-$string["mcplistrunsdesc"] = "List the connected Moodle user's saved audit runs and their statuses for a course. This does not start an audit.";
-$string["mcprunaudit"] = "Run a Moodle course audit";
-$string["mcprunauditdesc"] = "Run the existing course audit manager after a confirmation preview. Structure mode does not call AI; full and contentai modes may consume AI credits and store findings.";
-$string["mcpruncorrupt"] = "The saved audit report is invalid.";
-$string["mcprunmissing"] = "The requested audit report is not accessible in this course.";
 $string['related'] = 'Related item';
 $string['runaudit'] = 'Run audit';
 $string['sectionfilter'] = 'Section';

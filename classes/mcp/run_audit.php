@@ -37,6 +37,8 @@ use moodle_exception;
  */
 final class run_audit extends base_tool {
     /**
+     * Return the MCP tool identifier.
+     *
      * @return string
      */
     public function get_name(): string {
@@ -44,6 +46,8 @@ final class run_audit extends base_tool {
     }
 
     /**
+     * Return the translated MCP tool title.
+     *
      * @return string
      */
     public function get_title(): string {
@@ -51,6 +55,8 @@ final class run_audit extends base_tool {
     }
 
     /**
+     * Return the translated MCP tool description.
+     *
      * @return string
      */
     public function get_description(): string {
@@ -58,6 +64,8 @@ final class run_audit extends base_tool {
     }
 
     /**
+     * Return the required course-level audit capability.
+     *
      * @return string
      */
     public function get_required_capability(): string {
@@ -65,6 +73,8 @@ final class run_audit extends base_tool {
     }
 
     /**
+     * Declare the validated MCP argument schema.
+     *
      * @return array
      */
     public function get_input_schema(): array {
@@ -80,6 +90,8 @@ final class run_audit extends base_tool {
     }
 
     /**
+     * Resolve the course context for capability enforcement.
+     *
      * @param array $arguments Tool parameters.
      * @return context
      */
