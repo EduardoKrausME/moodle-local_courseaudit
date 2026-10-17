@@ -142,7 +142,7 @@ Course Audit does not extract assignment submissions, grades, forum posts, priva
 
 ## Moodle MCP integration (optional)
 
-When [local_mcp](https://github.com/EduardoKrausME/moodle-local_mcp) is installed, it discovers
+When [local_mcp](https://eduardokrausme.github.io/moodle-local_mcp/) is installed, it discovers
 `local_courseaudit\mcp\provider` from `classes/mcp/provider.php` automatically. The integration is
 optional: no `version.php` dependency, web-service token, callback in `lib.php`, or manual registration
 is necessary. Refresh the ChatGPT custom MCP connection after updating the Moodle plugin.
