@@ -38,6 +38,8 @@ require_capability('local/courseaudit:audit', $context);
 $PAGE->set_context($context);
 $PAGE->set_course($course);
 $PAGE->set_url(new moodle_url('/local/courseaudit/index.php', ['courseid' => $courseid]));
+
+\local_courseaudit\mcp_banner::dismiss_if_requested($PAGE->url);
 $PAGE->set_title(get_string('auditcourse', 'local_courseaudit'));
 $PAGE->set_heading(format_string($course->fullname));
 
@@ -64,6 +66,10 @@ if ($data = $form->get_data()) {
 }
 
 echo $OUTPUT->header();
+if (\local_courseaudit\mcp_banner::should_show()) {
+    echo \local_courseaudit\mcp_banner::render($OUTPUT, $PAGE->url);
+}
+
 echo $OUTPUT->heading(get_string('auditcourse', 'local_courseaudit'));
 echo html_writer::tag('p', get_string('intro', 'local_courseaudit'), ['class' => 'text-muted']);
 
