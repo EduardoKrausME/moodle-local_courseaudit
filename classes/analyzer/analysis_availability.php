@@ -25,7 +25,6 @@
 namespace local_courseaudit\analyzer;
 
 use cm_info;
-use core_text;
 use stdClass;
 
 /**
@@ -167,7 +166,7 @@ class analysis_availability {
      * @return string
      */
     private static function normalize_plugin_name($modname) {
-        $modname = trim(core_text::strtolower((string) $modname));
+        $modname = trim(strtolower((string) $modname));
 
         if (strpos($modname, "mod_") === 0) {
             $modname = substr($modname, 4);

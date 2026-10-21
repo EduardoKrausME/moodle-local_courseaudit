@@ -16,8 +16,6 @@
 
 namespace local_courseaudit;
 
-use core_text;
-
 /**
  * Text normalization and redaction utilities.
  *
@@ -59,7 +57,7 @@ class text_sanitizer {
      */
     public static function normalize(?string $value): string {
         $value = self::plain($value);
-        $value = core_text::strtolower($value);
+        $value = strtolower($value);
         $value = preg_replace('/[^\p{L}\p{N}\s]+/u', ' ', $value) ?? $value;
         $value = preg_replace('/\s+/u', ' ', $value) ?? $value;
         return trim($value);
@@ -108,7 +106,7 @@ class text_sanitizer {
      * @return int Return value.
      */
     private static function strlen(string $text): int {
-        return class_exists('core_text') ? core_text::strlen($text) : mb_strlen($text);
+        return strlen($text);
     }
 
     /**
@@ -120,6 +118,6 @@ class text_sanitizer {
      * @return string Return value.
      */
     private static function substr(string $text, int $start, int $length): string {
-        return class_exists('core_text') ? core_text::substr($text, $start, $length) : mb_substr($text, $start, $length);
+        return substr($text, $start, $length);
     }
 }
